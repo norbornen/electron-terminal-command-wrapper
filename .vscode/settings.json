@@ -1,0 +1,10 @@
+{
+    "emmet.includeLanguages": {
+        "ejs": "html"
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/node_modules/**": false
+    },
+    "editor.tabSize": 2
+}

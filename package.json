@@ -1,0 +1,62 @@
+{
+  "name": "electron-terminal-command-wrapper",
+  "version": "1.0.0",
+  "main": "src/main/index.js",
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "command line",
+    "wrapper"
+  ],
+  "scripts": {
+    "rebuild": "electron-rebuild",
+    "start": "electron . --enable-logging",
+    "dev": "NODE_ENV=development npm run start",
+
+    "build": "echo 'dummy script'",
+    "electron-build": "yarn build && electron-builder",
+    "build:app": "yarn electron-build --dir",
+    "build:all": "yarn electron-build build -mwl",
+    "build:mac": "yarn electron-build build --mac",
+    "build:linux": "yarn electron-build build --linux",
+    "build:windows": "yarn electron-build build --windows --x64"
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.2.0",
+    "execa": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/electron-is-dev": "^1.1.1",
+    "@types/node": "^14.14.19",
+    "electron": "^11.1.1",
+    "electron-builder": "^22.9.1",
+    "electron-rebuild": "^2.3.4",
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  },
+  "build": {
+    "appId": "org.dev.electron-terminal-command-wrapper",
+    "productName": "etcmdwrapper",
+    "artifactName": "${productName}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  }
+}

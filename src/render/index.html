@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Terminal Command Run Electron Wrapper</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript">
+    const { ipcRenderer } = require('electron');
+    const CHANNEL_NAME = 'channelCmd';
+
+    ipcRenderer.on(CHANNEL_NAME, (event, data) => {
+      const el = document.getElementById('console');
+      el.innerText = data;
+    });
+
+    function runIt(ev) {
+      ev.preventDefault();
+
+      const formEl = document.getElementById('exampleForm');
+      const formData = new FormData(formEl);
+      const command = (formData.get('command_command') || '').trim();
+      const options = (formData.get('command_options') || '').trim();
+      const argument = (formData.get('command_argument') || '').trim();
+
+      if (/\S/.test(command)) {
+        const data = { command };
+        if (/\S/.test(options)) {
+          data.options = options;
+        }
+        if (/\S/.test(argument)) {
+          data.argument = argument;
+        }
+        
+        ipcRenderer.send(CHANNEL_NAME, data);
+      }
+    }
+  </script>
+</head>
+
+<body style="background: white">
+  <h2>Terminal Command Run Electron Wrapper</h2>
+  <div>
+    <form id="exampleForm" onsubmit="return false">
+      <div style="margin: 16px 0;"><input type="text" name="command_command" placeholder="command" style="padding: 5px;"></div>
+      <div style="margin: 16px 0;"><input type="text" name="command_options" placeholder="command options" style="padding: 5px;"></div>
+      <div style="margin: 16px 0;"><input type="text" name="command_argument" placeholder="command arguments" style="padding: 5px;"></div>
+      <div style="margin: 16px 0;">
+        <button onclick="runIt(event)">Run command</button>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <hr>
+  <pre id="console" style="padding: 10px; background-color: #eeeeee;"></pre>
+</body>
+
+</html>
